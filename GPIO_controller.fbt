@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FBType Name="GPIO_controller" Comment="Simple FB with one algorithm">
+	<Identification Standard="61499-1">
+	</Identification>
+	<VersionInfo Version="1.0" Author="felix" Date="2025-07-17">
+	</VersionInfo>
+	<CompilerInfo>
+	</CompilerInfo>
+	<InterfaceList>
+		<EventInputs>
+			<Event Name="REQ" Type="Event" Comment="Normal Execution Request">
+				<With Var="COMMAND"/>
+			</Event>
+		</EventInputs>
+		<EventOutputs>
+			<Event Name="CNF" Type="Event" Comment="Execution Confirmation">
+			</Event>
+		</EventOutputs>
+		<InputVars>
+			<VarDeclaration Name="COMMAND" Type="STRING"/>
+		</InputVars>
+	</InterfaceList>
+	<SimpleFB>
+		<ECState Name="REQ">
+			<ECAction Algorithm="REQ" Output="CNF"/>
+		</ECState>
+		<Algorithm Name="Req">
+			<ST><![CDATA[ALGORITHM Req
+
+END_ALGORITHM
+
+]]></ST>
+		</Algorithm>
+	</SimpleFB>
+</FBType>

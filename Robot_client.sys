@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<System Name="Robot_client">
+	<VersionInfo Version="1.0" Author="felix" Date="2025-07-16">
+	</VersionInfo>
+	<Application Name="Robot_clientApp">
+		<SubAppNetwork>
+			<FB Name="SUBSCRIBE_1" Type="SUBSCRIBE_1" x="-1200" y="300">
+				<Parameter Name="QI" Value="TRUE"/>
+				<Parameter Name="ID" Value="&quot;raw[].mqtt[tcp://192.168.1.103:1883,forte,robot/gpio]&quot;"/>
+			</FB>
+			<FB Name="STRING2STRING" Type="STRING2STRING" x="500" y="600">
+			</FB>
+			<FB Name="OUT_ANY_CONSOLE" Type="OUT_ANY_CONSOLE" x="2100" y="400">
+				<Parameter Name="QI" Value="TRUE"/>
+			</FB>
+			<FB Name="GPIO_controller" Type="GPIO_controller" x="1900" y="1400">
+			</FB>
+			<FB Name="E_CYCLE" Type="E_CYCLE" x="-2700" y="200">
+				<Parameter Name="DT" Value="T#3s"/>
+			</FB>
+			<EventConnections>
+				<Connection Source="SUBSCRIBE_1.IND" Destination="STRING2STRING.REQ" dx1="505.26"/>
+				<Connection Source="STRING2STRING.CNF" Destination="OUT_ANY_CONSOLE.REQ" dx1="263.16"/>
+				<Connection Source="STRING2STRING.CNF" Destination="GPIO_controller.REQ" dx1="210.53"/>
+				<Connection Source="E_CYCLE.EO" Destination="SUBSCRIBE_1.INIT" dx1="484.21"/>
+			</EventConnections>
+			<DataConnections>
+				<Connection Source="SUBSCRIBE_1.RD_1" Destination="STRING2STRING.IN"/>
+				<Connection Source="STRING2STRING.OUT" Destination="OUT_ANY_CONSOLE.IN"/>
+				<Connection Source="STRING2STRING.OUT" Destination="GPIO_controller.COMMAND" dx1="310.53"/>
+			</DataConnections>
+		</SubAppNetwork>
+	</Application>
+	<Device Name="FORTE_PC" Type="FORTE_PC" x="3663.16" y="1389.47">
+		<Parameter Name="MGR_ID" Value="&quot;192.168.1.101:61499&quot;" Comment="Device manager socket ID"/>
+		<Attribute Name="Profile" Type="STRING" Value="HOLOBLOC"/>
+		<Attribute Name="Color" Type="STRING" Value="255,190,111"/>
+		<Resource Name="EMB_RES" Type="EMB_RES" x="0" y="0">
+			<FBNetwork>
+				<EventConnections>
+					<Connection Source="START.COLD" Destination="Robot_clientApp.E_CYCLE.START" dx1="100"/>
+					<Connection Source="START.WARM" Destination="Robot_clientApp.E_CYCLE.START" dx1="100"/>
+				</EventConnections>
+			</FBNetwork>
+		</Resource>
+	</Device>
+	<Segment Name="Ethernet" Type="Ethernet" x="3284.21" y="821.05" dx1="1578.95">
+		<Attribute Name="Color" Type="STRING" Value="113,134,204"/>
+	</Segment>
+	<Mapping From="Robot_clientApp.SUBSCRIBE_1" To="FORTE_PC.EMB_RES"/>
+	<Mapping From="Robot_clientApp.STRING2STRING" To="FORTE_PC.EMB_RES"/>
+	<Mapping From="Robot_clientApp.OUT_ANY_CONSOLE" To="FORTE_PC.EMB_RES"/>
+	<Mapping From="Robot_clientApp.GPIO_controller" To="FORTE_PC.EMB_RES"/>
+	<Mapping From="Robot_clientApp.E_CYCLE" To="FORTE_PC.EMB_RES"/>
+	<Link SegmentName="Ethernet" CommResource="FORTE_PC" Comment="">
+	</Link>
+</System>
