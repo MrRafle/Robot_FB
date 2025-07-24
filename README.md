@@ -10,7 +10,7 @@ Robot_client - описание структуры программы в IDE. Б
 
 gpiocontroller - кастомный функциональный блок gpio, написанный вручную на C++
 
-
+<img width="383" height="158" alt="изображение" src="https://github.com/user-attachments/assets/459a725e-fbed-4ab8-b613-4ee9e93b7c29" />
 
 setup_posix.sh - скрипт для сборки CMake под arm32
 
