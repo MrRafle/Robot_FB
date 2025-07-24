@@ -24,7 +24,7 @@
 
 #include <string>
 #include <iostream>
-static GPIO_Controller gpio;
+#include <devlog.h>
 
 DEFINE_FIRMWARE_FB(FORTE_GPIO_controller, g_nStringIdGPIO_controller)
 
@@ -120,19 +120,38 @@ CIEC_ANY *FORTE_GPIO_controller::getVarInternal(size_t) {
 
 void FORTE_GPIO_controller::alg_REQ(void) {
   // Получаем строку команды
-  std::string cmd = std::string(var_COMMAND.getValue());
+  char buffer[256]; // Буфер для хранения строки
+  int result = var_COMMAND.toString(buffer, sizeof(buffer)); // Преобразуем CIEC_STRING в char*
+  if (result < 0 || result >= static_cast<int>(sizeof(buffer))) {
+    DEVLOG_ERROR("GPIO_controller: Failed to convert command to string\n");
+    return;
+  }
+  std::string cmd(buffer); // Преобразуем в std::string
+
+  // Удаляем одинарные кавычки, если они есть
+  if (cmd.length() >= 2 && cmd.front() == '\'' && cmd.back() == '\'') {
+    cmd = cmd.substr(1, cmd.length() - 2); // Удаляем первый и последний символ
+  }
+
+  // Проверяем, пуста ли строка
+  if (cmd.empty()) {
+    DEVLOG_ERROR("GPIO_controller: Received empty command\n");
+    return;
+  }
+
+  // Логируем полученную команду для отладки
+  DEVLOG_INFO("GPIO_controller: Received command: %s\n", cmd.c_str());
 
   // Выполняем соответствующее действие
-  if(cmd == "forward") {
+  if (cmd == "forward") {
     gpio.forward(200);
-  } else if(cmd == "stop") {
+  } else if (cmd == "stop") {
     gpio.stop();
-  } else if(cmd == "left") {
+  } else if (cmd == "left") {
     gpio.left(100);
-  } else if(cmd == "right") {
+  } else if (cmd == "right") {
     gpio.right(100);
   } else {
-    // Неизвестная команда
-    std::cerr << "Unknown command: " << cmd << std::endl;
+    DEVLOG_ERROR("GPIO_controller: Unknown command: %s\n", cmd.c_str());
   }
 }

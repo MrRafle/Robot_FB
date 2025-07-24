@@ -11,6 +11,8 @@
 
 #pragma once
 #include <linux/gpio.h>
+#include "gpio_1.h"
+
 #include "core/simplefb.h"
 #include "core/datatypes/forte_string.h"
 #include "core/iec61131_functions.h"
@@ -23,6 +25,7 @@ class FORTE_GPIO_controller final : public CSimpleFB {
   DECLARE_FIRMWARE_FB(FORTE_GPIO_controller)
 
   private:
+    GPIO_Controller gpio;
     static const CStringDictionary::TStringId scmDataInputNames[];
     static const CStringDictionary::TStringId scmDataInputTypeIds[];
     static const TEventID scmEventREQID = 0;
