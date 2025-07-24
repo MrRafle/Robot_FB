@@ -21,8 +21,8 @@
 			<EventConnections>
 				<Connection Source="SUBSCRIBE_1.IND" Destination="STRING2STRING.REQ" dx1="505.26"/>
 				<Connection Source="STRING2STRING.CNF" Destination="OUT_ANY_CONSOLE.REQ" dx1="263.16"/>
-				<Connection Source="STRING2STRING.CNF" Destination="GPIO_controller.REQ" dx1="210.53"/>
 				<Connection Source="E_CYCLE.EO" Destination="SUBSCRIBE_1.INIT" dx1="484.21"/>
+				<Connection Source="STRING2STRING.CNF" Destination="GPIO_controller.REQ" dx1="310.53"/>
 			</EventConnections>
 			<DataConnections>
 				<Connection Source="SUBSCRIBE_1.RD_1" Destination="STRING2STRING.IN"/>
@@ -38,8 +38,8 @@
 		<Resource Name="EMB_RES" Type="EMB_RES" x="0" y="0">
 			<FBNetwork>
 				<EventConnections>
-					<Connection Source="START.COLD" Destination="Robot_clientApp.E_CYCLE.START" dx1="100"/>
-					<Connection Source="START.WARM" Destination="Robot_clientApp.E_CYCLE.START" dx1="100"/>
+					<Connection Source="START.COLD" Destination="Robot_clientApp.E_CYCLE.START" dx1="231.58"/>
+					<Connection Source="START.WARM" Destination="Robot_clientApp.E_CYCLE.START" dx1="226.32"/>
 				</EventConnections>
 			</FBNetwork>
 		</Resource>
